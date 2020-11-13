@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/Users/denniskats/OneDrive/Github Projects/TintAPI/env/bin/python3.9",
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black"
+}
