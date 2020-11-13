@@ -15,8 +15,5 @@ RUN pip install -r requirements.txt
 # Change directory permissions
 RUN chmod -R 777 ./
 
-# Expose port
-EXPOSE 5000
-
 # Run command
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT
