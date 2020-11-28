@@ -3,6 +3,7 @@ import platform
 import subprocess
 import uuid
 from enum import Enum
+from subprocess import TimeoutExpired
 from typing import Optional
 
 from fastapi import FastAPI
@@ -82,8 +83,10 @@ async def run_machine(ts: TintSubmission, machine: MachineType):
             output = process.stdout
             status = 200
         else:
-            output = "Something went wrong"
+            output = "Error: Something went wrong"
             status = 400
+    except TimeoutExpired:
+        output = "Error: Program took too long or encountered an infinite loop"
     finally:
         os.remove(tint_file_name)
         os.remove(test_file_name)
