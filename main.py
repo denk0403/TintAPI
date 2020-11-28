@@ -78,7 +78,7 @@ async def run_machine(ts: TintSubmission, machine: MachineType):
             ]
             tint_args = filter(lambda arg: arg != "", tint_args)
 
-            process = subprocess.run(tint_args, capture_output=True)
+            process = subprocess.run(tint_args, capture_output=True, timeout=5)
             output = process.stdout
             status = 200
         else:
