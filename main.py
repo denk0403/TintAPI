@@ -2,6 +2,7 @@ import os
 import platform
 import subprocess
 import uuid
+from enum import Enum
 from typing import Optional
 
 from fastapi import FastAPI
@@ -47,20 +48,21 @@ class TintOutput(BaseModel):
         }
 
 
-@app.post(
-    "/api/one-way-tm",
-    description="Runs the turing machine program on the given tests.",
-    response_model=TintOutput,
-)
-async def run_turing_machine(tm: TintSubmission):
+class MachineType(Enum):
+    DFA = "dfa"
+    ONE_WAY_TM = "one-way-tm"
+    TWO_WAY_TM = "two-way-tm"
+
+
+async def run_machine(ts: TintSubmission, machine: MachineType):
     tint_file_name = f"./{str(uuid.uuid4().hex)}.txt"
     tint_file = open(tint_file_name, "w")
-    tint_file.write(tm.program)
+    tint_file.write(ts.program)
     tint_file.close()
 
     test_file_name = f"./{str(uuid.uuid4().hex)}.txt"
     test_file = open(test_file_name, "w")
-    test_file.write(tm.tests)
+    test_file.write(ts.tests)
     test_file.close()
 
     opSys = platform.platform().lower()
@@ -69,8 +71,8 @@ async def run_turing_machine(tm: TintSubmission):
             tint_args = [
                 "./tint-linux",
                 "-m",
-                "one-way-tm",
-                "-v" if tm.verbose else "",
+                machine.value,
+                "-v" if ts.verbose else "",
                 tint_file_name,
                 test_file_name,
             ]
@@ -87,3 +89,50 @@ async def run_turing_machine(tm: TintSubmission):
         os.remove(test_file_name)
 
     return {"status": status, "output": output}
+
+
+@app.post(
+    "/api/one-way-tm",
+    description="Runs a one-way turing machine program on the given tests.",
+    response_model=TintOutput,
+)
+async def run_one_way_turing_machine(tm: TintSubmission) -> TintOutput:
+    return await run_machine(tm, MachineType.ONE_WAY_TM)
+
+
+@app.post(
+    "/api/two-way-tm",
+    description="Runs a two-way turing machine program on the given tests.",
+    response_model=TintOutput,
+)
+async def run_two_way_turing_machine(tm: TintSubmission) -> TintOutput:
+    return await run_machine(tm, MachineType.TWO_WAY_TM)
+
+
+@app.post(
+    "/api/dfa",
+    description="Runs a dfa program on the given tests.",
+    response_model=TintOutput,
+)
+async def run_dfa(tm: TintSubmission) -> TintOutput:
+    return await run_machine(tm, MachineType.DFA)
+
+
+class StartOutput(BaseModel):
+    status: int
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "status": 200,
+            }
+        }
+
+
+@app.get(
+    "/api/start",
+    description="Starts the API and confirms it is awake.",
+    response_model=StartOutput,
+)
+async def confirmAwake() -> StartOutput:
+    return {"status": 200}

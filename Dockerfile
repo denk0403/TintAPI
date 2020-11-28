@@ -1,3 +1,4 @@
+# Deploy with 'heroku container:push web'
 # Get Ubuntu Doocker Image
 FROM ubuntu:latest
 
