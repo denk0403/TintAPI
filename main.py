@@ -87,6 +87,7 @@ async def run_machine(ts: TintSubmission, machine: MachineType):
             status = 400
     except TimeoutExpired:
         output = "Error: Program took too long or encountered an infinite loop"
+        status = 400
     finally:
         os.remove(tint_file_name)
         os.remove(test_file_name)
