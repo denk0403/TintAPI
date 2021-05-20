@@ -5,7 +5,7 @@ FROM ubuntu:latest
 # Install all environment dependencies
 RUN apt-get update \
     && apt-get -y install python3 \
-    && apt-get install python3-venv
+    && apt-get -y install python3-venv
 
 WORKDIR /app
 COPY . /app
