@@ -10,13 +10,13 @@ WORKDIR /app
 COPY . /app
 
 # Create a virtual environment
-RUN python3 -m venv env
+RUN python -m venv env
 
 # Activate virtual environment
 RUN source env/bin/activate
 
 # Install API dependencies
-RUN python3 -m pip install -r requirements.txt
+RUN python -m pip install -r requirements.txt
 
 # Change directory permissions
 RUN chmod -R 777 ./
