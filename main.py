@@ -12,9 +12,22 @@ from typing import Optional
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, BaseSettings
 
-app = FastAPI()
+
+class Settings(BaseSettings):
+    title: str = "Tint API Reference"
+    description: str = "Documentation for the REST endpoints for Tint Generator."
+    openapi_url: str = "/openapi.json"
+
+
+settings = Settings()
+
+app = FastAPI(
+    title=settings.title,
+    description=settings.description,
+    openapi_url=settings.openapi_url,
+)
 
 # CORS middleware
 app.add_middleware(
