@@ -14,7 +14,7 @@ COPY . /app
 RUN python3 -m venv env
 
 # Activate virtual environment
-RUN source env/bin/activate
+RUN . env/bin/activate
 
 # Install API dependencies
 RUN python3 -m pip install -r requirements.txt
