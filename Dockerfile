@@ -15,6 +15,3 @@ RUN pip install -r requirements.txt
 
 # Change directory permissions
 RUN chmod -R 777 ./
-
-# Run command
-CMD OPENAPI_URL= uvicorn main:app --host 0.0.0.0 --port $PORT
