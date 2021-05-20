@@ -4,8 +4,7 @@ FROM ubuntu:latest
 
 # Install all environment dependencies
 RUN apt-get update \
-    && apt-get -y install python3 \
-    && apt-get -y install python3-venv
+    && apt-get -y install python3 python3-pip python3-venv
 
 WORKDIR /app
 COPY . /app
@@ -17,7 +16,7 @@ RUN python3 -m venv env
 RUN . env/bin/activate
 
 # Install API dependencies
-RUN python3 -m pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Change directory permissions
 RUN chmod -R 777 ./
