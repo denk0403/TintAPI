@@ -1,5 +1,5 @@
 build:
   docker:
-    release:
-      dockerfile: Dockerfile
     web: Dockerfile
+run:
+  web: Dockerfile
