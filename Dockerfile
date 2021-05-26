@@ -9,11 +9,11 @@ RUN apt-get update \
 WORKDIR /app
 COPY . /app
 
-# # Create a virtual environment
-# RUN python3 -m venv env
+# Create a virtual environment
+RUN python3 -m venv env
 
-# # Activate virtual environment
-# RUN . env/bin/activate
+# Activate virtual environment
+RUN . env/bin/activate
 
 # Install API dependencies
 RUN pip3 install -r requirements.txt
