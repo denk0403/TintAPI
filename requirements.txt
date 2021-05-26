@@ -4,4 +4,4 @@ h11==0.11.0
 pydantic==1.7.2
 starlette==0.13.6
 uvicorn==0.12.2
-newrelic==6.4.0
+newrelic==6.4.0.157
